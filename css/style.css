@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif; 
+}
+
+.header, footer {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: #333; 
+    color: cornsilk;
+}
+
+.header .logo img {
+      width: 350px; 
+}
+
+/*.header .nav ul {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center; 
+}
+    
+.header .nav ul li {
+    list-style: none; 
+}
+    
+.header .nav ul li a {
+    text-decoration: none;
+    padding: 0 10px;
+    color: #FFFAFF; 
+}*/
+
+.main-index h1 {
+    font-family: "Glass Antiqua", cursive;
+    font-size: 26px; 
+    background-color: #3E92CC;
+    color: aqua;
+    padding: 15px;
+}
+
+.listaproductos, footer ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; 
+    width: 80%;
+    padding-left: 10%;
+}
+
+.listaproductos div.separadorTitulo {
+    font-family: cursive;
+    font-size: 20px; 
+    background-color: #333;
+    color: aqua;
+    padding: 10px;
+}
+
+.listaproductos h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+.listaproductos h4 {
+color: #ed1d24 !important;
+}
+
+.listaproductos div.separadorFinal{
+    font-family: cursive;
+    font-size: 20px; 
+    background-color: #fff;
+    color: aqua;
+    padding: 10px;
+    text-align: right;
+}
+
+.listaproductos div.productos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 10px; 
+    box-shadow: 1px 1px 5px 2px #51515195;
+    border-radius: 20px;
+}
+
+/*.listaproductos div.productos button{
+    padding: 5px 15px;
+    margin: 15px;
+    border-radius: 15px;
+    background-color: #39145c;
+    color: white;
+    font-family: sans-serif;
+}*/
+
+.listaproductos div img {
+    height: 100px;
+}
+
+.listaproductos div.separadorTitulo, .listaproductos div.separadorFinal {
+    width: 100%;
+}
+
+/*.button,.listaproductos button, footer ul button {
+    padding: 5px;
+    background-color: #0A2463;
+    color: #FFFAFF;
+    border-radius: 15px; 
+}*/
+
+.oculto {
+    display: none !important;
+}
+
+footer {
+    padding: 50px 0;
+    margin-top: 50px;
+}
+
+footer p {
+padding-left: 50px;
+}

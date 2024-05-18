@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tercer entrega | Javascript</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header class="header">
+        
+        <div class="logo">
+            <img src="./images/Logo.png" alt="Depeliculas HD">
+        </div>
+
+        <nav class="nav">
+
+        </nav>
+
+    </header>
+    
+    <main class="main-index">
+        <h1>Tercer Entrega - Carrito de Compras</h1>
+
+        <div class="listaproductos" style="margin: 30px 0; ">
+            <!--<input id="inputBusqueda" placeholder="Buscar por nombre">-->
+            
+            <div class="input-group">
+                <select name="select-categoria" id="select-categoria" class="form-select" aria-label="Default select example">
+                    <option value="">Seleccione una categoria...</option>
+                </select>
+                <input id="input-entrada" type="text" class="form-control" placeholder="Nombre Producto" aria-label="Nombre Producto" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                <button id="botonBuscar" class="btn btn-outline-primary" type="button">Buscar</button>
+                <button id="botonLimpiar" class="btn btn-outline-primary" type="button">Limpiar</button>
+                <button id="botonVerCarrito" class="btn btn-outline-primary" type="button">Ver Carrito</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="contenedorProductos">
+            
+
+            <div id="lista-productos" class="listaproductos">
+
+            </div>
+
+        </div>
+    
+
+        <div id="contenedorCarrito" class="oculto listaproductos">
+            
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">#</th>
+                  </tr>
+                </thead>
+                <tbody id="tablita">
+
+                </tbody>
+            </table>
+        </div>
+        
+    </main>
+
+    <footer>
+        <di>
+            <p>@Javier Montenegro, 2024</p>
+        </di>
+    </footer>
+</body>
+
+<script src="./js/script.js"></script>
+
+</html>
