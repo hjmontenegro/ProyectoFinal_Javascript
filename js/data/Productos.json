@@ -1,0 +1,130 @@
+[
+    {
+        "id": 1,
+        "nombre": "Harina",
+        "categoria": 1,
+        "stock": 3,
+        "precio": 7300,
+        "rutaImagen": "harina.jpeg"
+    },
+    {
+        "id": 2,
+        "nombre": "Fideos",
+        "categoria": 1,
+        "stock": 8,
+        "precio": 5600,
+        "rutaImagen": "fideos.jpg"
+    },
+    {
+        "id": 3,
+        "nombre": "Arroz",
+        "categoria": 1,
+        "stock": 2,
+        "precio": 5000,
+        "rutaImagen": "arroz.jpg"
+    },
+    {
+        "id": 4,
+        "nombre": "Coca Cola 2l",
+        "categoria": 1,
+        "stock": 4,
+        "precio": 4500,
+        "rutaImagen": "coca-cola-dosl.jpg"
+    },
+    {
+        "id": 5,
+        "nombre": "Coca cola 1/2l",
+        "categoria": 2,
+        "stock": 1,
+        "precio": 2800,
+        "rutaImagen": "coca-cola-mediol.jpg"
+    },
+    {
+        "id": 6,
+        "nombre": "Alfajor",
+        "categoria": 2,
+        "stock": 7,
+        "precio": 2650,
+        "rutaImagen": "alfajor.jpg"
+    },
+    {
+        "id": 7,
+        "nombre": "Chocolate",
+        "categoria": 2,
+        "stock": 7,
+        "precio": 2650,
+        "rutaImagen": "chocolate.jpg"
+    },
+    {
+        "id": 8,
+        "nombre": "Galletitas",
+        "categoria": 2,
+        "stock": 3,
+        "precio": 7300,
+        "rutaImagen": "galletitas.jpg"
+    },
+    {
+        "id": 9,
+        "nombre": "Short",
+        "categoria": 3,
+        "stock": 8,
+        "precio": 5600,
+        "rutaImagen": "short.jpg"
+    },
+    {
+        "id": 10,
+        "nombre": "Zapatillas",
+        "categoria": 3,
+        "stock": 2,
+        "precio": 5000,
+        "rutaImagen": "zapatillas.jpg"
+    },
+    {
+        "id": 11,
+        "nombre": "Remera",
+        "categoria": 3,
+        "stock": 4,
+        "precio": 4500,
+        "rutaImagen": "remera.jpg"
+    },
+    {
+        "id": 12,
+        "nombre": "Campera",
+        "categoria": 3,
+        "stock": 1,
+        "precio": 2800,
+        "rutaImagen": "campera.jpg"
+    },
+    {
+        "id": 13,
+        "nombre": "Leche",
+        "categoria": 4,
+        "stock": 7,
+        "precio": 2650,
+        "rutaImagen": "leche.jpg"
+    },
+    {
+        "id": 14,
+        "nombre": "Yogurt",
+        "categoria": 4,
+        "stock": 7,
+        "precio": 2650,
+        "rutaImagen": "yogurt.jpg"
+    },
+    {
+        "id": 15,
+        "nombre": "Manteca",
+        "categoria": 4,
+        "stock": 7,
+        "precio": 2650,
+        "rutaImagen": "manteca.jpg"
+    },
+    {
+        "id": 16,
+        "nombre": "Salchichas",
+        "categoria": 4,
+        "stock": 7,
+        "precio": 2650,
+        "rutaImagen": "Salchichas.jpg"
+    }
+]
