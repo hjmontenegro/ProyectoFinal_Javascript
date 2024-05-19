@@ -32,6 +32,48 @@ async function principal() {
         renderizarProductos(lProductos, mCategorias);
     });
 
+    let botonLimpiarCarrito = document.getElementById("btn-limpiar-carrito");
+    botonLimpiarCarrito.addEventListener("click", function () {
+        localStorage.removeItem("carrito");
+        renderizarCarrito(lProductos, mCategorias);
+    });
+
+    
+
+    let botonPagar = document.getElementById("btn-pagar");
+    botonPagar.addEventListener("click", function () {
+        let carrito = obtenerCarritoLS();
+
+        if (carrito.length > 0)
+        {
+        swal({
+            title: "¿Confirma el Pago?",
+            //text: "Si confirma el envío, nos pondremos en contacto a la brevedad.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                swal("Pago Realizado", {
+                icon: "success",
+                });
+                localStorage.removeItem("carrito");
+                renderizarCarrito(lProductos, mCategorias);
+            } else {
+                swal("Pago Cancelado", {icon: "warning"});
+                
+            }
+        });
+    } else {
+        swal("Carrito Vacio", {
+            icon: "error",
+            });
+    }
+
+        
+        
+    });
     CargarMaestroCategorias(mCategorias);
     renderizarProductos(lProductos, mCategorias);
 }
@@ -83,7 +125,7 @@ function mostrarOcultar(e, lProductos, mCategorias) {
     }
 }
 
-function limpiarCamposBusqueda(){
+function limpiarCamposBusqueda() {
     let cCategoria = document.getElementById("select-categoria");
     let iBusqueda = document.getElementById("input-entrada");
 
@@ -134,6 +176,7 @@ function agregarOptions(domElement, array) {
 }
 
 function renderizarProductos(lproductos, mCategorias, categoria = null, seleccion = null) {
+    let carrito = obtenerCarritoLS();
     let contenedorProductos = document.getElementById("lista-productos");
     contenedorProductos.innerHTML = "";
 
@@ -143,13 +186,15 @@ function renderizarProductos(lproductos, mCategorias, categoria = null, seleccio
     fProductos.forEach(producto => {
 
         let tarjetaProducto = document.createElement("div");
+        let posicionProductoEnCarrito = carrito.findIndex(icarrito => icarrito.id === producto.id);
+        let cantidadEnCarrito = (posicionProductoEnCarrito == -1) ? 0 : carrito[posicionProductoEnCarrito].unidades;
 
         tarjetaProducto.className = "productos";
         tarjetaProducto.innerHTML = `
             <img src="./images/productos/${producto.rutaImagen}" />
             <h3>${producto.nombre}</h3>
             <h4>$ ${producto.precio}</h4>
-            <p>Disponible: ${producto.stock}</p>
+            <p>Disponible: ${producto.stock - cantidadEnCarrito}</p>
             <button name=${producto.id} id=botonCarrito${producto.id} class='btn btn-primary btn-sm' type='button'>Comprar</button>
         `;
 
@@ -172,7 +217,7 @@ function renderizarProductos(lproductos, mCategorias, categoria = null, seleccio
         contenedorProductos.appendChild(tarjetaProducto);
 
         let botonAgregarAlCarrito = document.getElementById("botonCarrito" + producto.id);
-        if (producto.stock <= 0) {
+        if ((producto.stock - cantidadEnCarrito) <= 0) {
             botonAgregarAlCarrito.disabled = true;
         }
         else
@@ -194,11 +239,9 @@ function agregarProductoAlCarrito(e, lproductos, mCategorias) {
     let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === idDelProducto);
     let posicionProductoEnProducto = lproductos.findIndex(producto => producto.id === idDelProducto);
 
-    lproductos[posicionProductoEnProducto].stock--;
 
     if (posicionProductoEnCarrito !== -1) {
         carrito[posicionProductoEnCarrito].unidades++;
-        carrito[posicionProductoEnCarrito].stock--;
         carrito[posicionProductoEnCarrito].subtotal = carrito[posicionProductoEnCarrito].precioUnitario * carrito[posicionProductoEnCarrito].unidades;
 
         lanzarTostada("Se agrego una unidad al Producto " + carrito[posicionProductoEnCarrito].nombre, "top", "left", 2000);
@@ -208,12 +251,12 @@ function agregarProductoAlCarrito(e, lproductos, mCategorias) {
             nombre: productoBuscado.nombre,
             precioUnitario: productoBuscado.precio,
             unidades: 1,
-            stock: productoBuscado.stock - 1, //el stock deberia modificarse en la lista de productos, pero para este ejemplo lo hago en el carrito
+            stock: productoBuscado.stock, //el stock deberia modificarse en la lista de productos, pero para este ejemplo lo hago en el carrito
             subtotal: productoBuscado.precio
         })
 
         lanzarTostada("Producto agregado", "top", "left", 2000);
-        
+
     }
 
     localStorage.setItem("carrito", JSON.stringify(carrito));
@@ -226,37 +269,28 @@ function eliminarProductoDelCarrito(e, lproductos, mCategorias) {
     let idDelProducto = Number(e.target.name);
     let cCategoria = document.getElementById("select-categoria");
     let iBusqueda = document.getElementById("input-entrada");
-    let productoBuscado = lproductos.find(producto => producto.id === idDelProducto);
     let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === idDelProducto);
-    let posicionProductoEnProducto = lproductos.findIndex(producto => producto.id === idDelProducto);
-
-    //lproductos[posicionProductoEnProducto].stock++;
 
     if (posicionProductoEnCarrito !== -1) {
-        carrito[posicionProductoEnCarrito].unidades--;
-        carrito[posicionProductoEnCarrito].stock++;
-        carrito[posicionProductoEnCarrito].subtotal = carrito[posicionProductoEnCarrito].precioUnitario * carrito[posicionProductoEnCarrito].unidades;
 
-        lanzarTostada("Se quito un elemento del Producto " + carrito[posicionProductoEnCarrito].nombre , "top", "left", 1000);
-    } else {
-        /*carrito.push({
-            id: productoBuscado.id,
-            nombre: productoBuscado.nombre,
-            precioUnitario: productoBuscado.precio,
-            unidades: 1,
-            stock: productoBuscado.stock - 1, //el stock deberia modificarse en la lista de productos, pero para este ejemplo lo hago en el carrito
-            subtotal: productoBuscado.precio
-        })*/
+        if (carrito[posicionProductoEnCarrito].unidades > 1)
+        {
+            carrito[posicionProductoEnCarrito].unidades--;
+            carrito[posicionProductoEnCarrito].subtotal = carrito[posicionProductoEnCarrito].precioUnitario * carrito[posicionProductoEnCarrito].unidades;
 
-        carrito = carrito.filter(producto => producto.id !== idDelProducto);
-        e.target.parentElement.remove();
+            lanzarTostada("Se quito un elemento del Producto " + carrito[posicionProductoEnCarrito].nombre, "top", "left", 1000);
+            
 
-        lanzarTostada("Producto eliminado", "top", "left", 1000);
+        } else {
+
+            carrito = carrito.filter(producto => producto.id !== idDelProducto);
+            e.target.parentElement.remove();
+
+            lanzarTostada("Producto eliminado", "top", "left", 1000);
+        }
     }
+    localStorage.setItem("carrito", JSON.stringify(carrito ))
 
-    //return carrito;
-    localStorage.setItem("carrito", JSON.stringify(carrito))
-    renderizarProductos(lproductos, mCategorias, cCategoria.value, iBusqueda.value);
     renderizarCarrito(lproductos, mCategorias);
 }
 
@@ -267,42 +301,39 @@ function renderizarCarrito(lproductos, mCategorias) {
     let sumaTotal = 0;
     contenedorCarrito.innerHTML = "";
     carrito.forEach(iproducto => {
-        /*let tarjetaProductoCarrito = document.createElement("div");
-        tarjetaProductoCarrito.className = "tarjetaProductoCarrito";
-        tarjetaProductoCarrito.id = `tarjetaProductoCarrito${iproducto.id}`;
-            */
-        let fila = `
+    let fila = `
         <tr>
-        <td><p>${iproducto.nombre}</p></td>
-        <td><p>${iproducto.precioUnitario}</p></td>
-        <td><p>${iproducto.unidades}</p></td>
-        <td><p>$ ${iproducto.subtotal}</p></td>
-        <td><button name=${iproducto.id} id=botoneliminar${iproducto.id} class='btn btn-primary btn-sm' type='button'>ELIMINAR</button></td>
+            <td><p>${iproducto.nombre}</p></td>
+            <td><p>${iproducto.precioUnitario}</p></td>
+            <td><p>${iproducto.unidades}</p></td>
+            <td><p>$ ${iproducto.subtotal}</p></td>
+            <td><button name='${iproducto.id}' id='botonEliminar${iproducto.id}' class='btn btn-primary' type='button'>ELIMINAR</button></td>
         </tr>
         `;
         sumaTotal += iproducto.subtotal;
 
         contenedorCarrito.innerHTML += fila;
+    });
 
-        let botonEliminar = document.getElementById("botoneliminar" + iproducto.id);
-        /*console.log(iproducto.stock + " + " + iproducto.unidades);
-        if (iproducto.stock < iproducto.unidades) {
-            botonEliminar.disabled = true;
-        }
-        else*/
-        botonEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(e, lproductos, mCategorias));
+        let total = `
+        <tr>
+            <td colspan=2> &nbsp;</td>
+            <td><p style='font-weight: bolder;'>TOTAL</p></td>
+            <td><p style='font-weight: bolder;'>$ ${sumaTotal}</p></td>
+        </tr>
+        `;
+
+    contenedorCarrito.innerHTML += total;
+
+    carrito.forEach(iproducto => {
+
+        let botonEliminarItem = document.getElementById(`botonEliminar${iproducto.id}`);
+
+        botonEliminarItem.addEventListener("click", (e) => { eliminarProductoDelCarrito(e, lproductos, mCategorias)}); 
 
     });
 
-    let total = `
-    <tr>
-        <td colspan=2> &nbsp;</td>
-        <td><p style='font-weight: bolder;'>TOTAL</p></td>
-        <td><p style='font-weight: bolder;'>$ ${sumaTotal}</p></td>
-    </tr>
-    `;
 
-    contenedorCarrito.innerHTML += total;
 }
 
 function lanzarAlerta(title, text, icon, timer) {
@@ -328,7 +359,7 @@ function lanzarTostada(text, gravity, position, duration) {
             fontSize: "large",
             background: "black"
         },
-        onClick: () => lanzarAlerta("probando"),
+        //onClick: () => lanzarAlerta("probando"),
         //destination: "./prueba.html"
     }).showToast();
 }
